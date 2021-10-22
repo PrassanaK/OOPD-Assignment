@@ -1,0 +1,109 @@
+//****************************************************************
+//Author: Prassana Kamalakannan
+//Filename: Plesiosaur.txt
+//DateModified: 29/10/2017
+//****************************************************************
+
+CLASS: Plesiosaur INHERITS FROM Dinosaur
+ 
+CLASS FIELDS: hasTailFin(boolean)
+
+CONSTRUCTORS:
+    Default
+    IMPORT: none
+    EXPORT: none
+    ALGORITHM:
+        super default constructor 
+        hasTailFin := false
+    
+    Alternate:
+    IMPORT: inName(String), inMass(real), inHasTailFin(boolean)
+    EXPORT: none
+    ALGORITHM:
+        super <-- inName, inMass
+        IF (validateHasTailFin <-- hasTailFin) THEN 
+            hasTailFin := inHasTailFin
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END Alternate
+
+    Copy:
+    IMPORT: inPlesiosaur(Plesiosaur)
+    EXPORT: none
+    ALGORITHM:
+        super <-- inPlesiosaur
+        hasTailFin := inPleasiosaur.getHasTailFin <-- none
+    END Copy
+  
+MUTATORS:
+ 
+    SUBMODULE setHasTailFin
+    IMPORT: inHasTailFin
+    EXPORT:none
+    ALGORITHM:
+        IF (validateHasTailFin <-- inHasTailFin) THEN
+            hasTailFin := inHasTailFin
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END setHasTailFin
+  
+ACCESSORS:
+    SUBMODULE calcEnclosureSize
+    IMPORT: none
+    EXPORT: enclosureArea(real)
+    ALGORITHM:
+        mass*PI*(10^3)
+    END calcEnclosureSize
+
+    SUBMODULE getHasTailFin
+    IMPORT: none
+    EXPORT: hasTailFin
+    END getHasTailFin
+
+    SUBMODULE equals
+    IMPORT: inObj(Object)
+    EXPORT: isEqual(boolean)
+    ALGORITHM:
+        isEqual := false
+        IF (inObj ISA Plesiosaur) THEN
+            inPlesiosaur := (Convert to Plesiosaur)inObj
+            IF super.equals <-- inPlesiosaur
+                IF hasTailFin.equals <-- inPlesiosaur.getHasTailFin <-- none
+                    isEqual := true
+                ENDIF
+            ENDIF
+        ENDIF
+        
+    END equals
+ 
+    SUBMODULE clone
+    IMPORT: none
+    EXPORT: clonePlesiosaur(Pleasiosaur Object)
+    ALGORITHM: 
+       CONSTRUCT clonePlesiosaur USING this
+    END clone
+
+    SUBMODULE toString
+    IMPORT: none
+    EXPORT: str
+    ALGORITHM:
+        str := super.toString + "hasTailFin: " + hasTailFin
+    END toString
+
+PRIVATE SUBMODULES:
+ 
+    SUBMODULE validateHasTailFin
+    IMPORT: inHasTailFin(String)
+    EXPORT: valid(boolean)
+    ALGORITHM:
+        IF inHasTailFin = true OR inHasTailFin = false THEN
+            valid := true
+        ELSE
+            valid := false
+        ENDIF
+    END validateHasTailFin        
+
+    
+    

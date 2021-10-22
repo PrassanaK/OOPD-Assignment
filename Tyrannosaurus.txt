@@ -1,0 +1,105 @@
+//****************************************************************
+//Author: Prassana Kamalakannan
+//Filename: Tyrannosaurus.txt
+//DateModified: 29/10/2017
+//****************************************************************
+
+CLASS: Tyrannosaurus
+
+CLASS FIELDS: biteForce(real)
+
+CONSTRUCTORS:
+    Default:
+    IMPORT: none
+    EXPORT: none
+    ALGORITHM:
+        super default constructor
+        biteForce := 501.0
+
+    Alternate:
+    IMPORT: inName(String), inMass(real), inBiteForce(real)
+    EXPORT: none
+    ALGORITHM:
+        super <-- inName, inMass
+        IF (validateBiteForce <-- biteForce) THEN
+            biteForce := inBiteForce
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END Alternate
+  
+    Copy:
+    IMPORT: inTyrannosaurus(Tyrannosaurus)
+    EXPORT: none
+    ALGORITHM: 
+        super <-- inTyrannosaurus
+        biteForce := inTyrannosaurus.getBiteForce <-- none
+    END Copy
+
+MUTATORS:
+  
+    SUBMODULE setBiteForce
+    IMPORT: inBiteForce
+    EXPORT: none
+    ALGORIHTM:
+        IF (validateBiteForce <-- inBiteForce THEN
+            biteForce := inBiteForce
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END setBiteForce
+
+ACCESSORS:
+    SUBMODULES calcEnclosureSize
+    IMPORT: none
+    EXPORT: enclosureSize(real)
+    ALGORITHM:
+        log2(mass)*biteForce*10.0
+    END calcEnclosureSize  
+ 
+    SUBMODULE getBiteForce
+    IMPORT: none
+    EXPORT: biteForce 
+    END getBiteForce
+  
+    SUBMODULE equals
+    IMPORT: inObj(Object)
+    EXPORT: isEqual(boolean)
+    ALGORITHM:
+        isEqual := false
+        IF (inObj ISA Tyrannosaurus) THEN
+            inTyrannosaurus := (Convert to Tyrannosaurus)inObj
+            IF super.equals <-- inTyrannosaurus
+                IF biteForce.equals <-- inTyrannosaurus.getBiteForce <-- none
+                    isEquals := true
+                ENDIF
+            ENDIF
+        ENDIF
+    END equals
+
+    SUBMODULE clone
+    IMPORT: none
+    EXPORT: cloneTyrannosaurus(Tyrannosaurus Object)
+    ALGORITHM: 
+        CONSTRUCT cloneTyrannosaurus USING this
+    END clone
+
+    SUBMODULE toString
+    IMPORT: none
+    EXPORT: str
+    ALGORITHM: 
+        str := super.toString + "biteForce: " + biteForce
+    END toString
+
+PRIVATE SUBMODULES
+   
+    SUBMODULE validateBiteForce
+    IMPORT: inBiteForce(real)
+    EXPORT: valid(boolean)
+    ALGORIHTM:
+        IF inBiteForce > 500.0 THEN
+            valid := true
+        ELSE
+            valid := false
+        ENDIF 
+    END validateBiteForce  

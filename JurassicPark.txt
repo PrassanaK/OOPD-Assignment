@@ -1,0 +1,134 @@
+//****************************************************************
+//Author: Prassana Kamalakannan
+//Filename: JurassicPark.txt
+//DateModified: 29/10/2017
+//****************************************************************
+
+CLASS:JurassicPark
+
+CLASS FIELDS:    Dinosaur(ARRAY OF Dinosaur)
+                 count(integer)
+                 contructed(boolean)
+
+CONSTRUCTORS:
+Default:
+    IMPORT: none
+    EXPORT: none
+    ALGORIHTM: 
+  
+        CREATE Dinosaur with 50 rows and 2 columns
+        FOR ii = 0 TO NUMBER OF COLUMNS OF DINOSAUR INC BY 1
+            FOR jj = 0 TO NUMBER OF ROWS OF DINOSAUR INC BY 1
+                Dinosaur[ii][jj] := default Dinosaur
+            ENDFOR
+        ENDFOR
+ 
+        count := 0
+        constructed := false;
+    END Default
+
+Alternate:
+    IMPORT: inDinosaur(ARRAY OF Dinosaur), inCount(integer), inConstructed(boolean)
+    EXPORT: none
+    ALGORIHTM: 
+        create dinosaur of sizeof inDinosaur
+        FOR ii = 0 TO NUMBER OF COLUMNS OF inDinosaur INC BY 1
+            FOR jj = 0 TO NUMBER OF ROWS OF inDinosaur INC BY 1
+                dinosaur[ii][jj] := copy of inDinosaur[ii][jj]
+            ENDFOR
+        ENDFOR
+       
+        count := inCount
+        constructed := inConstructed
+    END Alternate
+
+Copy:
+    IMPORT: inJurassicPark(JurassicPark)
+    EXPORT: none
+    ALGORITHM:
+        dinosaur := inJurassicPark.getDinosaur
+        count := inJurassicPark.getCount
+        constructed := inJurassicPark.getConstructed 
+    END Copy
+
+MUTATORS:
+    SUBMODULE setDinosaur
+    IMPORT: inDinosaur(ARRAY of Dinosaur)
+    EXPORT: none
+    ALGORITHM:
+        IF inDinosaur = NULL THEN
+            throw exception
+        ELSE 
+            create dinosaur of sizeof inDinosaur
+            FOR ii = 0 TO NUMBER OF COLUMNS OF inDinosaur INC BY 1
+                FOR jj = 0 TO NUMBER OF ROWS OF inDinosaur INC BY 1
+                    dinosaur[ii][jj] := copy of inDinosaur[ii][jj]
+                ENDFOR
+            ENDFOR
+        ENDIF
+    END setDinosaur
+
+    SUBMODULE setCount
+    IMPORT: inCount(integer)
+    EXPORT: none
+    ALGORITHM:
+        count := inCount
+    END setCount
+  
+    SUBMODULE setConstructed
+    IMPORT: inConstructed(boolean)
+    EXPORT: none
+    ALGORITHM:
+        constructed := inConstructed
+    END setConstructed
+
+ACCESSOR:
+    SUBMODULE getDinosaur
+    IMPORT: none
+    EXPORT: copy of Dinosaur
+    ALGORITHM:
+        create dinosaurCopy of sizeof dinosaur
+        FOR ii = 0 TO NUMBER OF COLUMNS OF dinosaur INC BY 1
+            FOR jj = 0 TO NUMBER OF ROWS OF dinosaur INC BY 1
+                dinosaurCopy[ii][jj] := copy of dinosaur
+            ENDFOR
+        ENDFOR
+    END getDinosaur
+
+    SUBMODULE getCount
+    IMPORT: none
+    EXPORT: count
+
+    SUBMODULE getConstructed
+    IMPORT: none
+    EXPORT: constructed
+
+    SUBMODULE equals
+    IMPORT: inObj Object
+    EXPORT: isEqual(boolean)
+    ALGORITHM:
+        isEqual := false
+        IF inObj ISA JurassicPark THEN
+            inJurassicPark := (Convert to JurassicPark)inObj
+            IF count = inJurrasicPark.getCount <-- none
+                IF constructed = inJurassicPark.getConstructed <-- none
+                    IF dinosaur = inJurassicPark.getDinosaur <-- none
+                        isEqual = true
+                    ENDIF
+                ENDIF
+            ENDIF
+        ENDIF
+    END equals
+
+    SUBMODULE toString
+    IMPORT: none
+    EXPORT: str(String)
+    ALGORITHM:
+        create dinosaur of sizeOf dinosaur
+        FOR ii = 0 TO NUMBER OF COLUMNS OF dinosaur INC BY 1
+            FOR jj = 0 TO NUMBER OF ROWS OF dinosaur INC BY 1
+                str := "Count: " + count + "Has JurassicPark been constructed yet? " + constructed + dinosaur[ii][jj]
+            ENDFOR
+        ENDFOR
+    END toString
+    

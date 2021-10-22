@@ -1,0 +1,39 @@
+//****************************************************************
+//Author: Prassana Kamalakannan
+//Filename: DinosaurMenu.txt
+//DateModified: 29/10/2017
+//****************************************************************
+
+SUBMODULE mainControlMenu
+IMPORT:none
+EXPORT: none
+ALGORITHM:
+    OUTPUT "Please enter one of the following options"
+    OUTPUT "1: Add Dinosaur"
+    OUTPUT "2: Display Dinosaur"
+    OUTPUT "3: Calculate Park Size"
+    OUTPUT "4: Read in Jurassic Park File"
+    OUTPUT "5: Write Jurassic Park File"
+    OUTPUT "6: Exit"
+    INPUT n
+    DO
+        CASE n
+            1:
+                addDinosaur <-- none
+            2:
+                displayDinosaur <-- none
+            3:
+                calculateParkSize <-- none
+            4:
+                readJParkFile <-- none
+            5:
+                writeJParkFile <-- none
+            6:
+                OUTPUT "Goodbye"
+            DEFAULT:
+               "Please only enter valid options"
+        END CASE
+WHILE n != 6
+END SUBMODULE
+ 
+    

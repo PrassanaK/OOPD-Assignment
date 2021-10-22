@@ -1,0 +1,145 @@
+//****************************************************************
+//Author: Prassana Kamalakannan
+//Filename: Dinosaur.txt
+//DateModified: 29/10/2017
+//****************************************************************
+
+ABSTRACT CLASS: Dinosaur
+ 
+CLASS FIELDS: name(String);
+              mass(real);
+              genome(Genome);
+
+CONSTRUCTORS:
+    Default:
+    IMPORT: none
+    EXPORT: none
+    ALGORITHM:
+        name := "unknown:
+        mass := 0.0
+        CONSTRUCT Genome using DEFAULT CONSTRUCTOR
+
+    Alternate:
+    IMPORT: inName(String), inMass(real), inGenome(String)
+    EXPORT: none
+    ALGORITHM: 
+        IF (validateName <-- name) AND (validateMass <-- mass) AND  THEN
+            name := inName
+            mass := inMass
+            MAKE COPY OF genome using inGenome
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END Alternate
+
+    Copy:
+    IMPORT: inDinosaur(Dinosaur)
+    EXPORT: none
+    ALGORITHM:
+        name := inDinosaur.getName <-- none
+        mass := inDinosaur.getMass <-- none
+        genome := inDinosaur.getGenome <-- none
+    END Copy
+
+MUTATORS:
+    SUBMODULE  setName 
+    IMPORT: inName(String)
+    EXPORT: none
+    ALGORITHM:
+        IF (validateName <-- inName) THEN
+            name := inName
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END setName
+ 
+    SUBMODULE setMass
+    IMPORT: inMass(real)
+    EXPORT: none
+    ALGORITHM:
+        IF (validateMass <-- inMass) THEN
+            mass := inMass
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END setMass
+
+    SUBMODULE setGenome
+    IMPORT: inGenome(String)
+    EXPORT: none
+    ALGORITHM:
+        IF (validateGenome <-- inGenome) THEN
+            genome := inGenome
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END setGenome
+
+ACCESSORS:
+    ABSTRACT SUBMODULE calcEnclosureSize
+    IMPORT: -
+    EXPORT: enclosureArea(real)
+
+    SUBMODULE getName
+    IMPORT: none
+    EXPORT: name
+    END getName
+    
+    SUBMODULE getMass
+    IMPORT: none
+    EXPORT: mass
+    END getMass
+
+    SUBMODULE getGenome
+    IMPORT: none
+    EXPORT: copy of genome
+    END getGenome
+
+    SUBMODULE equals
+    IMPORT: inObj(Object)
+    EXPORT: isEqual(boolean)
+    ALGORITHM:
+        isEqual := false
+        IF (inObj ISA Dinosaur) THEN
+            inDinosaur := (Convert to Dinosaur) inObj
+            isEqual := (name EQUALS inDinosaur.getName <-- none)
+                       (mass EQUALS inDinosaur.getMass <-- none)
+                       (genome EQUALS inDinosaur.getGenome <-- none)
+        ENDIF
+    END equals
+
+    ABSTRACT SUBMODULE clone
+    IMPORT: -
+    EXPORT: cloneDinosaur(Dinosaur Object)
+  
+    SUBMODULE toString
+    IMPORT: none
+    EXPORT: str 
+    ALGORITHM:
+        str := "name: " + name + "mass: " + mass + "genome: " + genome
+    END toString
+
+PRIVATE SUBMODULES:
+    
+    SUBMODULE validateName
+    IMPORT: inName
+    EXPORT: valid(boolean)
+    ALGORITHM:
+        IF inName = "" THEN
+            valid := false
+        ELSE
+            valid := true
+        ENDIF
+    END validateName
+   
+    SUBMODULE validateMass
+    IMPORT: inMass
+    EXPORT: valid(boolean)
+    ALGORITHM:
+        IF inMass < 0.0 THEN
+            valid := false
+        ELSE
+            valid := true
+        ENDIF
+    END validateMass
+

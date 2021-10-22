@@ -1,0 +1,105 @@
+//****************************************************************
+//Author: Prassana Kamalakannan
+//Filename: Triceratops.txt
+//DateModified: 29/10/2017
+//****************************************************************
+
+CLASS: Triceratops 
+
+CLASS FIELDS: numHorns(Integer)
+
+CONSTRUCTORS:
+Default:
+    IMPORT: none
+    EXPORT: none
+    ALGORITHM: 
+        super default constructor
+        numHorns := 3
+END Default
+
+Alternate:
+    IMPORT: inName(String), inMass(Real), inGenome(String),  inNumHorns(Integer)
+    EXPORT: none
+    ALGORITHM:
+        super <-- inName, inMass
+        IF (validateNumHorns <-- numHorns) THEN
+            numHorns := inNumHorns      
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+END Alternate
+ 
+Copy:
+    IMPORT: inTriceratops(Triceratops)
+    EXPORT: none
+    ALGORITHM:
+        super <-- inTriceratops
+        numHorns := inTriceratops.getNumHorns <-- none
+END Copy
+
+MUTATORS:
+
+    SUBMODULE setNumHorns
+    IMPORT: inNumHorns(Integer)
+    EXPORT: none
+    ALGORITHM:
+        IF (validateNumHorns <-- inNumHorns) THEN
+            numHorns := inNumHorns
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END setNumHorns
+
+ACCESSORS:
+    SUBMODULE calcEnclosureSize
+    IMPORT: none
+    EXPORT: enclosureArea(real)
+    ALGORITHM:
+        mass*PI*(4^numHorns(convert to real))
+    END calcEnclosureSize 
+ 
+    SUBMODULE getNumHorns
+    IMPORT: none
+    EXPORT: numHorns
+    END getNumHorns
+          
+    SUBMODULE equals
+    IMPORT: inObj(Object)
+    EXPORT: isEqual(boolean)
+    ALGORITHM:
+        isEqual := false
+        IF (inObj ISA Triceratops) THEN
+            inTriceratops := (Convert to Triceratops)inObj
+            IF super.equals <-- inTriceratops
+                IF numHorns.equals <-- inTriceratops.getNumHorns <-- none
+                    isEqual := true
+                ENDIF
+           ENDIF
+        ENDIF
+        
+    END equals
+
+    SUBMODULE clone
+    IMPORT: none
+    EXPORT: cloneTriceratops(Triceratops Object) 
+    ALGORITHM:
+        CONSTRUCT cloneTriceratops USING this
+
+    SUBMODULE toString
+    IMPORT: none
+    EXPORT: str(String)
+    ALGORITHM:
+        str := super.toString + "Number of horns: " + numHorns
+    END toString
+
+PRIVATE SUBMODULES:
+
+    SUBMODULE validateNumHorns
+    IMPORT: inNumHorns
+    EXPORT: valid
+    ALGOTIHM: 
+        valid := (inNumHorns >= 3) AND (inNumHorns MOD 3 = 0)
+    END validateNumHorns
+        
+
+        

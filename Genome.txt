@@ -1,0 +1,91 @@
+//****************************************************************
+//Author: Prassana Kamalakannan
+//Filename: Genome.txt
+//DateModified: 29/10/2017
+//****************************************************************
+
+CLASS: Genome
+
+CLASS FIELDS: genome(String)
+
+CONSTRUCTORS:
+Default:
+    IMPORT: none
+    EXPORT: none
+    ALGORITHM:
+        genome := "AGTC"
+    END Default
+ 
+Alternate
+    IMPORT: inGenome(String)
+    EXPORT: none
+    ALGORITHM:
+        IF (validateGenome <-- genome) THEN
+            genome := inGenome
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END Alternate
+
+Copy:
+    IMPORT: inGenome(Genome)
+    EXPORT: none
+    ALGORITHM:
+        genome := inGenome.getGenome <-- none
+    END Copy
+
+MUTATORS:
+    SUBMODULE setGenome
+    IMPORT: inGenome(String)
+    EXPORT: none
+    ALGORIHTM:
+        IF (validateGenome <-- inGenome) THEN
+            genome := inGenome
+        ELSE
+            THROW invalid arguement exception
+        ENDIF
+    END setGenome
+
+    SUBMODULE getGenome
+    IMPORT: none
+    EXPORT: genome(String)
+ 
+    SUBMODULE equals
+    IMPORT: inObj(Object)
+    EXPORT: isEqual(boolean)
+    ALGORITHM:
+        isEqual := false
+        IF (inObj ISA Genome) THEN
+            inDinosaur := (Convert to Genome) inObj
+            isEqual := (genome Equals inGenome.getGenome <-- none)
+        ENDIF
+    END equals
+
+    SUBMODULES clone
+    IMPORT: none
+    EXPORT: cloneGenome(Genome Object)
+    ALGORIHTM:
+        CONSTRUCT cloneGenome USING ALTERNATE CONSTRUCTOR with
+        genome
+    END clone
+   
+    SUBMODULE toString
+    IMPORT: none
+    EXPORT: str(String)
+    ALGORITHM:
+        OUTPUT "Genome sequence: " + genome
+    END toString
+
+PRIVATE SUBMODULES:
+    SUBMODULES validateGenome
+    IMPORT: inGenome
+    EXPORT: valid(boolean)
+    ALGORIHTM: 
+        FOR i = 0 TO LENGTH OF inGenome INC BY 1
+            IF inGenome.charAt(i) = 'A' OR 'G' OR 'C' OR 'T' THEN
+                valid := false
+            ELSE
+                valid := true
+            ENDIF
+        ENDFOR
+    END validateGenome
